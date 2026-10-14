@@ -1,0 +1,66 @@
+{
+  "name": "film",
+  "about": "Cinematic: letterbox bars, a soft film grade, serif italics, slow push-ins and booms on titles.",
+  "approved": false,
+  "source": "preset: film",
+  "fonts": {
+    "caption": {
+      "family": "Inter",
+      "weight": 600
+    },
+    "display": {
+      "family": "Playfair Display",
+      "weight": 700
+    },
+    "label": {
+      "family": "Inter",
+      "weight": 500
+    }
+  },
+  "colors": {
+    "text": "#F4F1EA",
+    "accent": "#D9C49A",
+    "box": "#0E0E0E",
+    "box_text": "#F4F1EA"
+  },
+  "captions": {
+    "on": true,
+    "font": "caption",
+    "size": 58,
+    "y": 1500,
+    "max_words": 5,
+    "case": "none",
+    "plate": false
+  },
+  "boxes": {
+    "font": "display",
+    "size": 92,
+    "label_font": "label",
+    "label_size": 38
+  },
+  "look": {
+    "grade": "film",
+    "vignette": true,
+    "letterbox": 150
+  },
+  "motion": {
+    "speed": 0.6,
+    "ease": "power2.inOut",
+    "transitions": "slow push-ins, fades through black",
+    "density": "low"
+  },
+  "sound": {
+    "density": "low",
+    "music_gain_db": -20
+  },
+  "notes": "Section titles centred in the frame between the bars, a boom under each.",
+  "cut": {
+    "max_pause": 0.2,
+    "lead": 0.05,
+    "tail": 0.08
+  },
+  "loudness": {
+    "lufs": -14.0,
+    "true_peak": -1.0
+  }
+}

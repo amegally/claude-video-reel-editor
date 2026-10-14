@@ -1,0 +1,66 @@
+{
+  "name": "mono",
+  "about": "Terminal lab: monospace everything, near-black boxes, one acid-green accent, fast and dense.",
+  "approved": false,
+  "source": "preset: mono",
+  "fonts": {
+    "caption": {
+      "family": "JetBrains Mono",
+      "weight": 800
+    },
+    "display": {
+      "family": "Space Grotesk",
+      "weight": 700
+    },
+    "label": {
+      "family": "JetBrains Mono",
+      "weight": 500
+    }
+  },
+  "colors": {
+    "text": "#E9FFE9",
+    "accent": "#7CFF6B",
+    "box": "#0B0F0C",
+    "box_text": "#E9FFE9"
+  },
+  "captions": {
+    "on": true,
+    "font": "caption",
+    "size": 64,
+    "y": 1450,
+    "max_words": 3,
+    "case": "lower",
+    "plate": true
+  },
+  "boxes": {
+    "font": "display",
+    "size": 80,
+    "label_font": "label",
+    "label_size": 40
+  },
+  "look": {
+    "grade": "cool",
+    "vignette": false,
+    "letterbox": 0
+  },
+  "motion": {
+    "speed": 0.22,
+    "ease": "power4.out",
+    "transitions": "hard cuts, typing reveals, glitch steps",
+    "density": "high"
+  },
+  "sound": {
+    "density": "high",
+    "music_gain_db": -22
+  },
+  "notes": "Show the real screen a lot, full size behind the speaker. Clicks and typing under every reveal.",
+  "cut": {
+    "max_pause": 0.2,
+    "lead": 0.05,
+    "tail": 0.08
+  },
+  "loudness": {
+    "lufs": -14.0,
+    "true_peak": -1.0
+  }
+}

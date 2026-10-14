@@ -1,0 +1,66 @@
+{
+  "name": "clean",
+  "about": "Bright and simple: heavy white captions on a dark plate, the spoken word lit in yellow, plain serif titles.",
+  "approved": false,
+  "source": "preset: clean",
+  "fonts": {
+    "caption": {
+      "family": "Inter",
+      "weight": 800
+    },
+    "display": {
+      "family": "Instrument Serif",
+      "weight": 400
+    },
+    "label": {
+      "family": "JetBrains Mono",
+      "weight": 600
+    }
+  },
+  "colors": {
+    "text": "#FFFFFF",
+    "accent": "#FFD23F",
+    "box": "#111111",
+    "box_text": "#FFFFFF"
+  },
+  "captions": {
+    "on": true,
+    "font": "caption",
+    "size": 74,
+    "y": 1430,
+    "max_words": 3,
+    "case": "none",
+    "plate": true
+  },
+  "boxes": {
+    "font": "display",
+    "size": 88,
+    "label_font": "label",
+    "label_size": 44
+  },
+  "look": {
+    "grade": "none",
+    "vignette": false,
+    "letterbox": 0
+  },
+  "motion": {
+    "speed": 0.3,
+    "ease": "power3.out",
+    "transitions": "hard cuts, a quick push-in on big lines",
+    "density": "medium"
+  },
+  "sound": {
+    "density": "medium",
+    "music_gain_db": -22
+  },
+  "notes": "Straight footage. A box or overlay every few seconds, pops on everything that appears.",
+  "cut": {
+    "max_pause": 0.2,
+    "lead": 0.05,
+    "tail": 0.08
+  },
+  "loudness": {
+    "lufs": -14.0,
+    "true_peak": -1.0
+  }
+}

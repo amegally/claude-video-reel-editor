@@ -1,0 +1,66 @@
+{
+  "name": "editorial",
+  "about": "Magazine page: serif display type, cream boxes with ink text, warm grade, calm pace.",
+  "approved": false,
+  "source": "preset: editorial",
+  "fonts": {
+    "caption": {
+      "family": "Fraunces",
+      "weight": 700
+    },
+    "display": {
+      "family": "Fraunces",
+      "weight": 400
+    },
+    "label": {
+      "family": "IBM Plex Mono",
+      "weight": 500
+    }
+  },
+  "colors": {
+    "text": "#FFF8EC",
+    "accent": "#E8B04B",
+    "box": "#F3E9D6",
+    "box_text": "#1C1A17"
+  },
+  "captions": {
+    "on": true,
+    "font": "caption",
+    "size": 70,
+    "y": 1440,
+    "max_words": 4,
+    "case": "none",
+    "plate": false
+  },
+  "boxes": {
+    "font": "display",
+    "size": 96,
+    "label_font": "label",
+    "label_size": 40
+  },
+  "look": {
+    "grade": "warm",
+    "vignette": true,
+    "letterbox": 0
+  },
+  "motion": {
+    "speed": 0.45,
+    "ease": "power2.out",
+    "transitions": "slow reveals and wipes, no whips",
+    "density": "low"
+  },
+  "sound": {
+    "density": "low",
+    "music_gain_db": -24
+  },
+  "notes": "Fewer, bigger moments. Type behind the head for key lines, paper and page sounds.",
+  "cut": {
+    "max_pause": 0.2,
+    "lead": 0.05,
+    "tail": 0.08
+  },
+  "loudness": {
+    "lufs": -14.0,
+    "true_peak": -1.0
+  }
+}
