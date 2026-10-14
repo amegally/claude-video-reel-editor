@@ -3,6 +3,8 @@
 Every entry comes from a real edit: something that looked wrong in a finished video, and the change that fixed it.
 
 ## 2026-10-13
+- **A clean install, README only,** on a throwaway home: Mac only for now, Python 3.10 or newer (Homebrew's is
+  3.14), the speech model stays in `~/reels`, and setup says how long it takes and where its test video is.
 - **No demo shrink while they hold something up.** A device in the speaker's hand vanished as they shrank into
   the corner: the matte drops held objects. The shrink now waits until it's lowered; if it never is, they stay full
   size and the app goes up big in the space they point at.
