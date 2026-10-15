@@ -18,8 +18,8 @@ import sys
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from common import (FPS, H, SR, W, decode_audio, die, load_plan, load_style, probe, project_arg,  # noqa: E402
-                    read_json, run, video_stream, write_json, write_wav)
+from common import (FPS, H, MODELS, SR, W, decode_audio, die, load_plan, load_style, probe,  # noqa: E402
+                    project_arg, read_json, run, video_stream, write_json, write_wav)
 from transcribe import QUIET_DB, envelope_db  # noqa: E402
 
 SPF = SR // FPS          # audio samples per frame
@@ -92,6 +92,41 @@ def pieces(plan, style, words, env):
         else:
             merged.append([s, e, take])
     return [(int(np.floor(s * FPS)), int(np.ceil(e * FPS)), take) for s, e, take in merged]
+
+
+def clipped_ends(project, plan, frames, env, margin=0.08):
+    """no piece may end inside a word. A 20-40ms dip inside a word (the closure of a d, t, k or p) can pass for the
+    end of the word, and the speech model sometimes splits a line's last word in two ("video." heard as "fire." +
+    "See ya."), so a keep end set there clips the word: the viewer hears "vi-". Every piece end still sounding at
+    the cut gets the source around it transcribed again (cached in work/tails.json); a word running more than
+    `margin` s past the end is a clipped word. plan.tail_ok = [end, ...] lets a deliberate one through."""
+    from faster_whisper import WhisperModel
+    floor = np.percentile(env, 10)
+    ok = {round(t, 2) for t in plan.get("tail_ok", [])}
+    path = os.path.join(project, "work", "tails.json")
+    cache, model, bad = read_json(path) or {}, None, []
+    for k, (sf, ef, _) in enumerate(frames):
+        e = ef / FPS
+        if round(e, 2) in ok or (k + 1 < len(frames) and frames[k + 1][0] == ef):   # the next piece goes on from here
+            continue
+        if not (env[int(e * 100): int(e * 100) + 7] > floor + 15).any():           # quiet at the cut: a clean end
+            continue
+        key = f"{plan['source']}|{e:.3f}"
+        if key not in cache:
+            model = model or WhisperModel("small.en", device="cpu", compute_type="int8",
+                                          download_root=os.path.join(MODELS, "whisper"))
+            a0 = max(0.0, e - 2.0)
+            clip = decode_audio(plan["source"], a0, e + 1.2, channels=1, rate=16000)[:, 0]
+            segs, _ = model.transcribe(clip, language="en", word_timestamps=True, initial_prompt=plan.get("prompt") or None,
+                                       condition_on_previous_text=False, vad_filter=False)
+            cache[key] = [[round(a0 + w.start, 3), round(a0 + w.end, 3), w.word.strip()] for s in segs for w in s.words]
+            write_json(path, cache)
+        for ws, we, t in cache[key]:
+            if ws < e - 0.05 and we > e + margin:
+                bad.append(f'  piece {k + 1} ends at {e:.2f}, inside "{t}" ({ws:.2f}-{we:.2f}): end that keep range '
+                           f"after the word's tail, where it's quiet again, or before the word at {ws:.2f}")
+                break
+    return bad
 
 
 def segments_from(frames, lead):
@@ -206,6 +241,11 @@ def main():
         said = " ".join(w["w"] for w in words if overlap(w, sg["src_s"], sg["src_e"]))
         print(f"{sg['src_s']:8.3f}-{sg['src_e']:8.3f} -> {sg['out_s']:6.2f}  {said}")
     print(f"{len(segs)} pieces, {total:.2f}s")
+    bad = clipped_ends(project, plan, frames, env)
+    if bad:
+        print("\n".join(bad))
+        die("CLIPPED WORD: a piece ends inside a word. Move that keep range's end, or add the end to plan.tail_ok if "
+            "you meant to cut there (a drawn-out \"a...\" shortened).")
     if "--plan" in sys.argv:
         return
 

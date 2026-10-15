@@ -101,7 +101,10 @@ post.
 - Put names and terms in `plan.prompt`. `PY scripts/transcribe.py <slug>`, then read
   `work/source-transcript.txt` (source seconds, one line per stretch of speech).
 - People repeat a line until it lands: keep the **last clean take** of each line. Write `plan.keep` as
-  `[start, end]` source-second ranges in speaking order, each starting just before its first word. A take that
+  `[start, end]` source-second ranges in speaking order, each starting just before its first word and ending after
+  its last word has fully died away. Never end a range on a dip inside the word, and never because the transcript
+  says the word ended there. The model sometimes splits a line's last word in two ("video." heard as "fire." +
+  "See ya."), and those stray words are usually the rest of the word, not a mumble. A take that
   sets up a demo can carry `{"hold": 1.2}` as a third item: that much of them after the last word stays in.
 - A line marked `<- check: stretched` hides speech the model skipped (a false start, a retake): run
   `transcribe.py <slug> --range <start> <end>` on that stretch before choosing.
@@ -109,7 +112,9 @@ post.
 ## 3. Cut
 - `PY scripts/cut.py <slug> --plan` lists the pieces, `cut.py <slug>` makes `public/clean.mp4`. Every pause longer
   than `style.cut.max_pause` (0.2s) is cut, inside takes too, and each piece's end follows the loudness out so
-  soft endings ("s", "f") survive. Picture and sound share frame boundaries, so lip sync can't drift. At a change
+  soft endings ("s", "f") survive. It stops on CLIPPED WORD when a piece ends inside a word, and says where to end
+  instead. Add the end to `plan.tail_ok` only when the cut is meant to be there (a drawn-out "a..." shortened).
+  Picture and sound share frame boundaries, so lip sync can't drift. At a change
   of take the picture switches `style.cut.j_lead` (0.15s) after the sound: `work/segments.json` has each piece's
   `pic_s`. End anything tied to a take (a box, an overlay, a screen behind) at the next take's `pic_s`, not its
   first word.

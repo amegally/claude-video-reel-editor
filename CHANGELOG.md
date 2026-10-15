@@ -2,6 +2,13 @@
 
 Every entry comes from a real edit: something that looked wrong in a finished video, and the change that fixed it.
 
+## 2026-10-14
+- **No more clipped last words.** A finished video cut off the end of "video", so the viewer heard "vi-". The
+  transcript had split the word into "fire." + "See ya.", the stray words were cut as a mumble, and the take ended
+  on the short dip inside the word (the "d"), which looked like silence. `cut.py` now transcribes the source around
+  every piece end that's still sounding at the cut. If a word runs past the end, it stops and says where to end
+  instead.
+
 ## 2026-10-13
 - **A clean install, README only,** on a throwaway home: Mac only for now, Python 3.10 or newer (Homebrew's is
   3.14), the speech model stays in `~/reels`, and setup says how long it takes and where its test video is.
